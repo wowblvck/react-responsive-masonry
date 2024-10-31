@@ -22,7 +22,7 @@ If you don't use package manager and you want to include `react-responsive-mason
 directly in your html, you could get it from the UNPKG CDN
 
 ```html
-https://unpkg.com/react-responsive-masonry/umd/react-responsive-masonry.js
+https://unpkg.com/react-responsive-masonry/umd/react-responsive-index.ts
 ```
 
 ## Demo
@@ -35,12 +35,12 @@ See [Demo page][github-page]
 
 ## Usage
 
-If you want the number of columns change by resizing the window, you need to wrap the `Masonry` component by the `ResponsiveMasonry` component.
-Otherwise, you only need to use the `Masonry` component.
+If you want the number of columns change by resizing the window, you need to wrap the `Index` component by the `ResponsiveMasonry` component.
+Otherwise, you only need to use the `Index` component.
 
 ```js
 import React from "react"
-import Masonry, {ResponsiveMasonry} from "react-responsive-masonry"
+import Index, {ResponsiveMasonry} from "react-responsive-masonry"
 
 // The number of columns change by resizing the window
 class MyWrapper extends React.Component {
@@ -49,13 +49,13 @@ class MyWrapper extends React.Component {
             <ResponsiveMasonry
                 columnsCountBreakPoints={{350: 1, 750: 2, 900: 3}}
             >
-                <Masonry>
+                <Index>
                     <ChildA />
                     <ChildB />
                     {/* Children */}
                     <ChildY />
                     <ChildZ />
-                </Masonry>
+                </Index>
             </ResponsiveMasonry>
         )
     }
@@ -65,13 +65,13 @@ class MyWrapper extends React.Component {
 class MyWrapper extends Component {
     render() {
         return (
-            <Masonry columnsCount={3}>
+            <Index columnsCount={3}>
                 <ChildA />
                 <ChildB />
                 {/* Children */}
                 <ChildY />
                 <ChildZ />
-            </Masonry>
+            </Index>
         )
     }
 }

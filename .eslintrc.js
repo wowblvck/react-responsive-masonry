@@ -7,11 +7,18 @@ module.exports = {
     "jest/globals": true,
   },
   parserOptions: {
+    ecmaVersion: 2020,
     sourceType: "module",
-    ecmaVersion: 2019,
   },
-  plugins: ["jest"],
-  extends: ["eslint:recommended", "plugin:react/recommended", "prettier"],
+  parser: "@typescript-eslint/parser",
+  plugins: ["jest", "@typescript-eslint"],
+  root: true,
+  extends: [
+    "eslint:recommended",
+    "plugin:@typescript-eslint/recommended",
+    "plugin:react/recommended",
+    "prettier",
+  ],
   settings: {
     react: {
       version: "detect",

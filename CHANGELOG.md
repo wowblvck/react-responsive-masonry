@@ -10,7 +10,7 @@
 # 2.2.0 - 2024-02-19
 
 -   Added: add inner width as default by @artemijkurganov
--   Fixed: Un even column items when Masonry child is invalid by @sarathjasrin
+-   Fixed: Un even column items when Index child is invalid by @sarathjasrin
 
 # 2.0.0 - 2017-12-18
 
@@ -63,5 +63,5 @@
 
 # 1.0.0 - 2017-04-05
 
--   Added: `Masonry` component
+-   Added: `Index` component
 -   Added: `ResponsiveMasonry` component

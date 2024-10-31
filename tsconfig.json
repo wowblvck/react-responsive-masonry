@@ -1,16 +1,23 @@
 {
     "compilerOptions": {
-        "module": "node16",
+        "module": "ESNext",
         "lib": [
-            "es6"
+          "ESNext",
+          "dom"
         ],
         "noImplicitAny": true,
         "noImplicitThis": true,
+        "strict": true,
+        "esModuleInterop": true,
+        "declaration": true,
+        "declarationDir": "dist/types",
         "strictFunctionTypes": true,
+        "moduleResolution": "node",
+        "target": "es6",
         "strictNullChecks": true,
-        "typeRoots": ["./types"],
-        "noEmit": true,
         "forceConsistentCasingInFileNames": true,
         "jsx": "react"
-    }
+    },
+    "include": ["src/**/*"],
+    "exclude": ["node_modules", "dist"]
 }

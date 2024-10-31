@@ -1,15 +1,13 @@
 {
   "name": "react-responsive-masonry",
-  "version": "2.4.1",
+  "version": "1.0.0",
   "author": {
     "name": "Cédric Delpoux",
     "email": "cedric.delpoux@gmail.com"
   },
   "description": "React responsive masonry component built with css flexbox",
   "files": [
-    "es",
-    "lib",
-    "umd"
+    "dist"
   ],
   "homepage": "https://github.com/cedricdelpoux/react-responsive-masonry#readme",
   "keywords": [
@@ -20,55 +18,44 @@
     "responsive"
   ],
   "license": "MIT",
-  "main": "lib/index.js",
-  "module": "es/index.js",
-  "types": "types/index.d.ts",
+  "main": "dist/cjs/index.js",
+  "module": "dist/esm/index.js",
+  "types": "dist/index.d.ts",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cedricdelpoux/react-responsive-masonry.git"
   },
   "scripts": {
-    "openssl:legacy": "NODE_OPTIONS=--openssl-legacy-provider",
-    "build": "yarn run openssl:legacy nwb build-react-component",
-    "clean": "nwb clean-module && nwb clean-demo",
-    "deploy": "gh-pages -d demo/dist",
-    "lint": "eslint src demo/src",
-    "prepublish": "yarn run clean && yarn run build",
-    "start": "yarn run openssl:legacy nwb serve-react-demo --port 1190",
-    "test": "jest --colors --no-cache",
-    "test:watch": "yarn test -- --watch",
-    "prepare": "husky install"
+    "build": "rollup -c",
+    "prepublish": "yarn run build",
+    "prepare": "husky"
+  },
+  "peerDependencies": {
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "@babel/core": "^7.25.8",
-    "@babel/preset-env": "^7.25.8",
-    "@babel/preset-react": "^7.25.7",
-    "@commitlint/cli": "^14.1.0",
-    "@commitlint/config-conventional": "^14.1.0",
-    "babel-eslint": "^10.1.0",
-    "babel-jest": "^27.3.1",
-    "cz-conventional-changelog": "3.3.0",
-    "enzyme": "^3.11.0",
-    "enzyme-adapter-react-16": "^1.15.6",
+    "@commitlint/cli": "^19.5.0",
+    "@commitlint/config-conventional": "^19.5.0",
+    "@rollup/plugin-commonjs": "^28.0.1",
+    "@rollup/plugin-node-resolve": "^15.3.0",
+    "@types/react": "^18.3.12",
+    "@typescript-eslint/eslint-plugin": "^8.12.2",
+    "@typescript-eslint/parser": "^8.12.2",
     "eslint": "^8.2.0",
     "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-jest": "^25.2.4",
     "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-react": "^7.37.1",
-    "gh-pages": "^3.2.3",
-    "html-loader": "^1.1.0",
-    "husky": "^7.0.0",
-    "jest": "^27.3.1",
-    "jest-css-modules": "^2.1.0",
-    "jsdom": "^18.1.0",
-    "lint-staged": "^12.0.2",
-    "markdown-loader": "^6.0.0",
-    "nwb": "^0.25.2",
-    "prettier": "^2.4.1",
-    "prop-types": "^15.7.2",
-    "react": "^16.13.1",
-    "react-demo-page": "^0.3.6",
-    "react-dom": "^16.13.1",
-    "react-test-renderer": "^16.13.1"
-  }
+    "eslint-plugin-react": "^7.37.2",
+    "husky": "^9.1.6",
+    "jsdom": "^25.0.1",
+    "lint-staged": "^15.2.10",
+    "prettier": "^3.3.3",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1",
+    "rollup": "^4.24.3",
+    "rollup-plugin-dts": "^6.1.1",
+    "rollup-plugin-typescript2": "^0.36.0",
+    "typescript": "^5.6.3"
+  },
+  "dependencies": {}
 }
