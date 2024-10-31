@@ -27,8 +27,7 @@
   },
   "scripts": {
     "build": "rollup -c",
-    "prepublish": "yarn run build",
-    "prepare": "husky"
+    "prepublish": "yarn run build"
   },
   "peerDependencies": {
     "react": "^18.3.1",
