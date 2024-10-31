@@ -35,8 +35,6 @@
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "@commitlint/cli": "^19.5.0",
-    "@commitlint/config-conventional": "^19.5.0",
     "@rollup/plugin-commonjs": "^28.0.1",
     "@rollup/plugin-node-resolve": "^15.3.0",
     "@types/react": "^18.3.12",
@@ -46,9 +44,7 @@
     "eslint-config-prettier": "^8.3.0",
     "eslint-plugin-prettier": "^4.0.0",
     "eslint-plugin-react": "^7.37.2",
-    "husky": "^9.1.6",
     "jsdom": "^25.0.1",
-    "lint-staged": "^15.2.10",
     "prettier": "^3.3.3",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",

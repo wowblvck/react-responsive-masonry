@@ -1,6 +1,0 @@
-{
-  "*.js": [
-    "prettier --no-bracket-spacing --no-semi --trailing-comma=es5 --write",
-    "git add"
-  ]
-}
