@@ -61,13 +61,14 @@ interface MasonryProps {
    *
    * @type {string}
    */
-  itemTag?: keyof HTMLElementTagNameMap
+  columnTag?: keyof HTMLElementTagNameMap
   /**
    * Style object for the Index component item.
    * Default is {}.
    *
    * @type {React.CSSProperties}
    */
+  columnStyle?: CSSProperties
   itemStyle?: CSSProperties
 }
 
@@ -75,8 +76,9 @@ const MasonryFC: FC<MasonryProps> = ({
   children,
   className,
   style,
+  columnStyle,
+  columnTag = "div",
   itemStyle,
-  itemTag = "div",
   containerTag = "div",
   gutter = "0px",
   columnsCount = 3,
@@ -123,6 +125,7 @@ const MasonryFC: FC<MasonryProps> = ({
               style: {
                 display: "flex",
                 justifyContent: "stretch",
+                ...itemStyle,
               },
               key: validIndex,
               ref: childRefs[validIndex],
@@ -160,7 +163,7 @@ const MasonryFC: FC<MasonryProps> = ({
   }
 
   const renderColumns = useMemo(() => {
-    const columnStyle = {
+    const columnStyled = {
       display: "flex",
       flexDirection: "column",
       justifyContent: "flex-start",
@@ -168,13 +171,13 @@ const MasonryFC: FC<MasonryProps> = ({
       flex: 1,
       width: 0,
       gap: gutter,
-      ...itemStyle,
+      ...columnStyle,
     }
 
     return columns.map((column, i) =>
-      createElement(itemTag, {key: i, style: columnStyle}, column)
+      createElement(columnTag, {key: i, style: columnStyled}, column)
     )
-  }, [columns, itemTag, gutter, itemStyle])
+  }, [columns, columnTag, gutter, columnStyle])
 
   return createElement(
     containerTag,
