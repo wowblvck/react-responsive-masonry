@@ -1,6 +1,6 @@
 {
   "name": "@wowblvck/react-responsive-masonry",
-  "version": "1.0.1",
+  "version": "2.0.1",
   "author": {
     "name": "Cédric Delpoux",
     "email": "cedric.delpoux@gmail.com"
@@ -8,6 +8,9 @@
   "description": "React responsive masonry component built with css flexbox",
   "files": [
     "dist"
+  ],
+  "sideEffects": [
+    "**/*.css"
   ],
   "homepage": "https://github.com/cedricdelpoux/react-responsive-masonry#readme",
   "keywords": [
@@ -19,38 +22,47 @@
   ],
   "license": "MIT",
   "main": "dist/cjs/index.js",
-  "module": "dist/esm/index.js",
-  "types": "dist/index.d.ts",
+  "module": "dist/esm/index.mjs",
+  "types": "dist/types/index.d.ts",
+  "exports": {
+    ".": {
+      "import": "./dist/esm/index.mjs",
+      "require": "./dist/cjs/index.js",
+      "types": "./dist/types/index.d.ts"
+    },
+    "./Masonry": {
+      "import": "./dist/esm/Masonry/index.mjs",
+      "require": "./dist/cjs/Masonry/index.js",
+      "types": "./dist/types/Masonry/index.d.ts"
+    },
+    "./ResponsiveMasonry": {
+      "import": "./dist/esm/ResponsiveMasonry/index.mjs",
+      "require": "./dist/cjs/ResponsiveMasonry/index.js",
+      "types": "./dist/types/ResponsiveMasonry/index.d.ts"
+    }
+  },
   "repository": {
     "type": "git",
     "url": "git+https://github.com/cedricdelpoux/react-responsive-masonry.git"
   },
   "scripts": {
-    "build": "rollup -c",
-    "prepublish": "yarn run build"
+    "build": "rslib build",
+    "lint": "biome check .",
+    "format": "biome check . --write"
   },
   "peerDependencies": {
     "react": "^18.3.1",
     "react-dom": "^18.3.1"
   },
   "devDependencies": {
-    "@rollup/plugin-commonjs": "^28.0.1",
-    "@rollup/plugin-node-resolve": "^15.3.0",
+    "@biomejs/biome": "2.2.2",
+    "@rsbuild/plugin-react": "^1.4.0",
+    "@rslib/core": "^0.12.4",
     "@types/react": "^18.3.12",
-    "@typescript-eslint/eslint-plugin": "^8.16.0",
-    "@typescript-eslint/parser": "^8.16.0",
-    "eslint": "^8.2.0",
-    "eslint-config-prettier": "^8.3.0",
-    "eslint-plugin-prettier": "^4.0.0",
-    "eslint-plugin-react": "^7.37.2",
-    "jsdom": "^25.0.1",
-    "prettier": "^3.4.1",
+    "@types/react-dom": "^18.3.7",
+    "jsdom": "^26.1.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
-    "rollup": "^4.27.4",
-    "rollup-plugin-dts": "^6.1.1",
-    "rollup-plugin-typescript2": "^0.36.0",
-    "typescript": "^5.7.2"
-  },
-  "dependencies": {}
+    "typescript": "^5.9.2"
+  }
 }
