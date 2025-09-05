@@ -1,4 +1,14 @@
-import React, {Children, createRef, isValidElement, useCallback, useEffect, useLayoutEffect, useState} from 'react'
+import React, {
+	Children,
+	createRef,
+	isValidElement,
+	ReactNode,
+	RefObject,
+	useEffect,
+	useLayoutEffect,
+	useMemo,
+	useState,
+} from 'react'
 import {Column} from './Column'
 import {Item} from './Item'
 import styles from './style.module.css'
@@ -75,77 +85,57 @@ export const Masonry: React.FC<MasonryProps> = ({
 	gutter = '0px',
 	columnsCount = 3,
 }) => {
-	const [columns, setColumns] = useState<React.ReactNode[][]>([])
-	const [prevChildren, setPrevChildren] = useState<React.ReactNode>(children)
-	const [childRefs, setChildRefs] = useState<React.RefObject<HTMLDivElement>[]>([])
-	const [hasDistributed, setHasDistributed] = useState(false)
-	const [prevColumnsCount, setPrevColumnsCount] = useState(columnsCount)
-	const ContainerTag = containerTag as keyof JSX.IntrinsicElements
+	const [columns, setColumns] = useState<ReactNode[][]>(Array.from({length: columnsCount}, () => []))
 
-	useIsomorphicLayoutEffect(() => {
-		const hasColumnsChanged = columnsCount !== prevColumnsCount
-		if (children === prevChildren && !hasColumnsChanged) return
+	const childRefs = useMemo(() => Children.toArray(children).map(() => createRef<HTMLDivElement>()), [children])
 
-		const result = getEqualCountColumns(children, columnsCount)
-		setColumns(result.columns)
-		setChildRefs(result.childRefs)
-		setHasDistributed(false)
-		setPrevChildren(children)
-		setPrevColumnsCount(columnsCount)
-	}, [children, columnsCount, prevChildren, prevColumnsCount])
+	const getEqualCountColumns = (children: ReactNode | ReactNode[], columnsCount: number) => {
+		const columns: ReactNode[][] = Array.from({length: columnsCount}, () => [])
 
-	useIsomorphicLayoutEffect(() => {
-		if (!hasDistributed) {
-			distributeChildren()
-		}
-	}, [hasDistributed, columns, childRefs])
-
-	const distributeChildren = useCallback(() => {
-		const columnHeights = Array(columnsCount).fill(0)
-
-		const isReady = childRefs.every((ref) => ref.current && ref.current.getBoundingClientRect().height)
-
-		if (!isReady) return
-
-		const newColumns: React.ReactNode[][] = Array.from({length: columnsCount}, () => [])
-		let validIndex = 0
-
-		Children.forEach(children, (child) => {
-			if (child && isValidElement(child)) {
-				const childHeight = childRefs[validIndex].current?.getBoundingClientRect().height || 0
-				const minHeightColumnIndex = columnHeights.indexOf(Math.min(...columnHeights))
-
-				columnHeights[minHeightColumnIndex] += childHeight
-				newColumns[minHeightColumnIndex].push(child)
-				validIndex++
-			}
-		})
-
-		setColumns(newColumns)
-		setHasDistributed(true)
-	}, [children, columnsCount, childRefs])
-
-	const getEqualCountColumns = (children: React.ReactNode, columnsCount: number) => {
-		const columns: React.ReactNode[][] = Array.from({length: columnsCount}, () => [])
-		let validIndex = 0
-		const childRefs: React.RefObject<HTMLDivElement>[] = []
-
-		Children.forEach(children, (child) => {
+		Children.forEach(children, (child, idx) => {
 			if (child && isValidElement(child)) {
 				const ref = createRef<HTMLDivElement>()
-				childRefs.push(ref)
-
-				columns[validIndex % columnsCount].push(
-					<Item key={validIndex} ref={ref} style={itemStyle}>
+				columns[idx % columnsCount].push(
+					<Item key={idx} ref={ref} style={itemStyle}>
 						{child}
 					</Item>
 				)
-				validIndex++
 			}
 		})
 
-		return {columns, childRefs}
+		return columns
 	}
+
+	const distributeChildren = () => {
+		const columnHeights = Array<number>(columnsCount).fill(0)
+		const columns = Array.from<number, ReactNode[]>({length: columnsCount}, () => [])
+		Children.forEach(children, (child, idx) => {
+			if (child && isValidElement(child) && childRefs.length > 0) {
+				const childHeight = childRefs[idx].current?.getBoundingClientRect().height || 0
+				const minHeightColumnIndex = columnHeights.indexOf(Math.min(...columnHeights))
+				columnHeights[minHeightColumnIndex] += childHeight
+				columns[minHeightColumnIndex].push(
+					<Item key={idx} ref={childRefs[idx]} style={itemStyle}>
+						{child}
+					</Item>
+				)
+			}
+		})
+		setColumns(columns)
+	}
+
+	useIsomorphicLayoutEffect(() => {
+		const initialColumns = getEqualCountColumns(children, columnsCount)
+		setColumns(initialColumns)
+	}, [children, columnsCount])
+
+	useEffect(() => {
+		if (childRefs.every((ref) => ref.current !== null)) {
+			distributeChildren()
+		}
+	}, [childRefs])
+
+	const ContainerTag = containerTag as keyof JSX.IntrinsicElements
 
 	return (
 		<ContainerTag className={[styles.container, className].filter(Boolean).join(' ')} style={style}>

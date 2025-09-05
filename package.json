@@ -1,6 +1,6 @@
 {
   "name": "@wowblvck/react-responsive-masonry",
-  "version": "2.0.1",
+  "version": "2.0.2",
   "author": {
     "name": "Cédric Delpoux",
     "email": "cedric.delpoux@gmail.com"
@@ -48,7 +48,10 @@
   "scripts": {
     "build": "rslib build",
     "lint": "biome check .",
-    "format": "biome check . --write"
+    "format": "biome check . --write",
+    "test": "jest",
+    "test:watch": "jest --watch",
+    "test:coverage": "jest --coverage"
   },
   "peerDependencies": {
     "react": "^18.3.1",
@@ -60,7 +63,6 @@
     "@rslib/core": "^0.12.4",
     "@types/react": "^18.3.12",
     "@types/react-dom": "^18.3.7",
-    "jsdom": "^26.1.0",
     "react": "^18.3.1",
     "react-dom": "^18.3.1",
     "typescript": "^5.9.2"
