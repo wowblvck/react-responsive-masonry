@@ -3,7 +3,6 @@ import React, {
 	createRef,
 	isValidElement,
 	ReactNode,
-	RefObject,
 	useEffect,
 	useLayoutEffect,
 	useMemo,
@@ -89,32 +88,21 @@ export const Masonry: React.FC<MasonryProps> = ({
 
 	const childRefs = useMemo(() => Children.toArray(children).map(() => createRef<HTMLDivElement>()), [children])
 
-	const getEqualCountColumns = (children: ReactNode | ReactNode[], columnsCount: number) => {
-		const columns: ReactNode[][] = Array.from({length: columnsCount}, () => [])
-
-		Children.forEach(children, (child, idx) => {
-			if (child && isValidElement(child)) {
-				const ref = createRef<HTMLDivElement>()
-				columns[idx % columnsCount].push(
-					<Item key={idx} ref={ref} style={itemStyle}>
-						{child}
-					</Item>
-				)
-			}
-		})
-
-		return columns
-	}
-
 	const distributeChildren = () => {
 		const columnHeights = Array<number>(columnsCount).fill(0)
-		const columns = Array.from<number, ReactNode[]>({length: columnsCount}, () => [])
+		const newColumns = Array.from<number, ReactNode[]>({length: columnsCount}, () => [])
 		Children.forEach(children, (child, idx) => {
 			if (child && isValidElement(child) && childRefs.length > 0) {
 				const childHeight = childRefs[idx].current?.getBoundingClientRect().height || 0
-				const minHeightColumnIndex = columnHeights.indexOf(Math.min(...columnHeights))
-				columnHeights[minHeightColumnIndex] += childHeight
-				columns[minHeightColumnIndex].push(
+				let targetColumnIndex: number
+				if (childHeight === 0) {
+					targetColumnIndex = idx % columnsCount
+				} else {
+					targetColumnIndex = columnHeights.indexOf(Math.min(...columnHeights))
+					columnHeights[targetColumnIndex] += childHeight
+				}
+
+				newColumns[targetColumnIndex].push(
 					<Item key={idx} ref={childRefs[idx]} style={itemStyle}>
 						{child}
 					</Item>
@@ -125,11 +113,6 @@ export const Masonry: React.FC<MasonryProps> = ({
 	}
 
 	useIsomorphicLayoutEffect(() => {
-		const initialColumns = getEqualCountColumns(children, columnsCount)
-		setColumns(initialColumns)
-	}, [children, columnsCount])
-
-	useEffect(() => {
 		if (childRefs.every((ref) => ref.current !== null)) {
 			distributeChildren()
 		}
