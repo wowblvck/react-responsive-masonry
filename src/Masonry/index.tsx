@@ -138,7 +138,13 @@ export const Masonry: React.FC<MasonryProps> = ({
 	const ContainerTag = containerTag as keyof JSX.IntrinsicElements
 
 	return (
-		<ContainerTag className={[styles.container, className].filter(Boolean).join(' ')} style={style}>
+		<ContainerTag
+			className={[styles.container, className].filter(Boolean).join(' ')}
+			style={{
+				gap: gutter,
+				...style,
+			}}
+		>
 			{columns.map((child, i) => (
 				<Column key={i} columnTag={columnTag} style={columnStyle} gutter={gutter}>
 					{child}
